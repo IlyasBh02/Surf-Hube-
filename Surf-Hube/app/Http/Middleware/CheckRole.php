@@ -16,9 +16,9 @@ class CheckRole
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (!$request->user() || $request->user()->role !== $role) {
-            abort(403, 'Accès non autorisé.');
+            return redirect('/')->with('error', 'You do not have permission to access this page.');
         }
-        
+
         return $next($request);
     }
 } 

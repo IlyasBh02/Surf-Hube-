@@ -12,26 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'login',
-        'register',
-        'logout'
+        //
     ];
-
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, \Closure $next)
-    {
-        if ($request->is('login') || 
-            $request->is('register') || 
-            $request->is('logout')) {
-            return $next($request);
-        }
-
-        return parent::handle($request, $next);
-    }
-} 
+}

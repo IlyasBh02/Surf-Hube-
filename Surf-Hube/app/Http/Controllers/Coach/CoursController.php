@@ -18,7 +18,7 @@ class CoursController extends Controller
             ->orderBy('date', 'asc')
             ->paginate(10);
             
-        return view('coach.cours.index', compact('cours'));
+        return view('coach.cours.index');
     }
     
     /**

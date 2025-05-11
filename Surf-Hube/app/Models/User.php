@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -20,15 +19,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'prenom',
         'email',
         'password',
-        'sexe',
-        'poids',
-        'hauteur',
-        'experience',
         'role',
-        'is_approved',
+        'status',
+        'coach_approved',
+        'bio',
+        'description',
+        'years_experience',
+        'profile_picture',
     ];
 
     /**
@@ -49,18 +48,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'coach_approved' => 'boolean',
     ];
 
     /**
-     * Vérifier si l'utilisateur est un coach
+     * Get the courses created by this user (if they are a coach).
      */
-    public function isCoach()
+    public function courses()
     {
-        return $this->role === 'coach';
+        return $this->hasMany(Course::class, 'coach_id');
     }
 
     /**
-     * Vérifier si l'utilisateur est un admin
+     * Get the reservations made by this user (if they are a surfeur).
+     */
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'surfeur_id');
+    }
+
+    /**
+     * Check if the user is an admin.
      */
     public function isAdmin()
     {
@@ -68,26 +76,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Obtenir les cours donnés par ce coach
+     * Check if the user is a coach.
      */
-    public function cours()
+    public function isCoach()
     {
-        return $this->hasMany(Cours::class, 'coach_id');
+        return $this->role === 'coach';
     }
 
     /**
-     * Obtenir les réservations faites par ce surfeur
+     * Check if the user is a surfeur.
      */
-    public function reservations()
+    public function isSurfeur()
     {
-        return $this->hasMany(Reservation::class, 'surfer_id');
-    }
-
-    /**
-     * Vérifier si l'utilisateur est un coach approuvé
-     */
-    public function isApprovedCoach()
-    {
-        return $this->role === 'coach' && $this->is_approved;
+        return $this->role === 'surfeur';
     }
 }

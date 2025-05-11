@@ -9,33 +9,55 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $table = 'reservations';
-    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'cours_id',
-        'surfer_id',
-        'date',
-        'statut',
-        'notes',
+        'course_id',
+        'surfeur_id',
+        'status',
     ];
-    
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
-        'date' => 'datetime',
+        'status' => 'string',
     ];
-    
+
     /**
-     * Obtenir le cours associé à cette réservation
+     * Get the course that the reservation belongs to.
      */
-    public function cours()
+    public function course()
     {
-        return $this->belongsTo(Cours::class, 'cours_id');
+        return $this->belongsTo(Course::class);
     }
-    
+
     /**
-     * Obtenir le surfeur qui a fait cette réservation
+     * Get the surfeur that made the reservation.
      */
-    public function surfer()
+    public function surfeur()
     {
-        return $this->belongsTo(User::class, 'surfer_id');
+        return $this->belongsTo(User::class, 'surfeur_id');
+    }
+
+    /**
+     * Check if the reservation is confirmed.
+     */
+    public function isConfirmed()
+    {
+        return $this->status === 'confirmed';
+    }
+
+    /**
+     * Check if the reservation is cancelled.
+     */
+    public function isCancelled()
+    {
+        return $this->status === 'cancelled';
     }
 } 

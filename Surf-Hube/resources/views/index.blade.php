@@ -35,7 +35,7 @@ $mswApiUrl = "https://magicseaweed.com/api/$mswApiKey/forecast/?spot_id=381&unit
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surf-Hube - École de Surf à Essaouira</title>
+    <title>Surf-Hube</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- SwiperJS CDN -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
